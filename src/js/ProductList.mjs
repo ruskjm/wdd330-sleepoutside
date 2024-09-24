@@ -27,8 +27,14 @@ export default class ProductListing {
   }
 
   filterProducts(list) {
-    // Return only the first four items from the list
-    return list.slice(0, 4);
+    const desiredProducts = [
+      "880RR", // Marmot Ajax Tent - 3-Person, 3-Season
+      "985RF", // The North Face Talus Tent - 4-Person, 3-Season
+      "985PR", // The North Face Alpine Guide Tent - 3-Person, 4-Season
+      "344YJ"  // Cedar Ridge Rimrock Tent - 2-Person, 3-Season
+    ];
+
+    return list.filter(product => desiredProducts.includes(product.Id));
   }
 
   renderList(list) {
