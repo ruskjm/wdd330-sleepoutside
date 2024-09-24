@@ -37,3 +37,15 @@ document
   .getElementById("addToCart")
   // Add a click event listener to the button
   .addEventListener("click", addToCartHandler);
+
+  filterProducts(list) {
+    // The IDs of the first four tents in the list
+    const desiredIds = [
+        "880RR",
+        "985RF",
+        "989CG",
+        "985PR"
+    ];
+
+    return list.filter(item => desiredIds.includes(item.Id));
+}
