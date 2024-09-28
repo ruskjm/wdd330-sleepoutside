@@ -1,4 +1,8 @@
-/*import { renderListWithTemplate } from "./utils.mjs";
+/*
+
+i kept your code here so i dont break it with mine, you may compare and contrast and see what we go with
+
+import { renderListWithTemplate } from "./utils.mjs";
 
 function productCardTemplate(product) {
   return `<li class="product-card">

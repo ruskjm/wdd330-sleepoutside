@@ -1,4 +1,9 @@
-/*import { getLocalStorage } from "./utils.mjs";
+/*
+
+i kept your code here so i dont break it just.
+
+
+import { getLocalStorage } from "./utils.mjs";
 
 function renderCartContents() {
   const cartItems = getLocalStorage("so-cart") || [];
@@ -53,7 +58,7 @@ function cartItemTemplate(item, quantity) {
       <h2 class="card__name">${item.Name}</h2>
     </a>
     <p class="cart-card__color">${item.Colors[0].ColorName}</p>
-    ${quantity >= 1 ? `<p class="cart-card__quantity">${quantity}</p>` : ""}
+    ${quantity >= 1 ? `<p class="cart-card__quantity">${quantity} Tents.</p>` : ""}
     <p class="cart-card__price">$${item.FinalPrice}</p>
   </li>`;
 }
