@@ -78,10 +78,12 @@ function renderCartContents() {
     const productIds = new Set();
 
     // Loop through cartItems to populate specialItems with unique products and their quantities
-    cartItems.forEach(item => {
+    cartItems.forEach((item) => {
       if (!productIds.has(item.Id)) {
         productIds.add(item.Id);
-        const quantity = cartItems.filter(citem => citem.Id === item.Id).length;
+        const quantity = cartItems.filter(
+          (citem) => citem.Id === item.Id,
+        ).length;
         // Calculate total price for the item
         const totalPrice = item.FinalPrice * quantity;
         specialItems.push({ ...item, quantity, totalPrice });
@@ -89,11 +91,16 @@ function renderCartContents() {
     });
 
     // Mapping over specialItems to generate HTML for each unique item
-    const htmlItems = specialItems.map((sitem) => cartItemTemplate(sitem, sitem.quantity));
+    const htmlItems = specialItems.map((sitem) =>
+      cartItemTemplate(sitem, sitem.quantity),
+    );
     productList.innerHTML = htmlItems.join("");
 
     // Calculate and display the total price for the cart
-    const totalCartPrice = specialItems.reduce((sum, item) => sum + item.totalPrice, 0);
+    const totalCartPrice = specialItems.reduce(
+      (sum, item) => sum + item.totalPrice,
+      0,
+    );
     cartTotal.innerHTML = `Total: $${totalCartPrice.toFixed(2)}`;
     cartFooter.classList.remove("hide");
   }
