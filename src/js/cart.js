@@ -1,5 +1,6 @@
 // Render function to update the cart contents on the page
 import { getLocalStorage } from "./utils.mjs";
+import { setupCartIcon, updateCartIcon } from "./cartIcon.js";
 
 // Template function for cart items
 function cartItemTemplate(item, quantity) {
@@ -57,6 +58,9 @@ function renderCartContents() {
     cartTotal.innerHTML = `Total: $${totalCartPrice.toFixed(2)}`;
     cartFooter.classList.remove("hide");
   }
+  updateCartIcon();
 }
 
+// Initialize the cart icon and render cart contents
+setupCartIcon();
 renderCartContents();

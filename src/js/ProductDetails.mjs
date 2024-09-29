@@ -1,4 +1,5 @@
 import { setLocalStorage, getLocalStorage } from "./utils.mjs";
+import { updateCartIcon } from "./cartIcon.js";
 
 export default class ProductDetails {
   constructor(productId, dataSource) {
@@ -22,6 +23,7 @@ export default class ProductDetails {
     }
     cart.push(this.product);
     setLocalStorage("so-cart", cart);
+    updateCartIcon();
   }
 
   renderProductDetails() {

@@ -1,9 +1,14 @@
 import { getParams } from "./utils.mjs";
 import ProductData from "./ProductData.mjs";
 import ProductDetails from "./ProductDetails.mjs";
+import { setupCartIcon, updateCartIcon } from "./cartIcon.js";
 
 const dataSource = new ProductData("tents");
 const productId = getParams("product");
+
+// Initialize the cart icon
+setupCartIcon();
+updateCartIcon();
 
 function renderError(message) {
   document.querySelector(".product-detail").innerHTML = `
