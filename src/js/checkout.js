@@ -1,9 +1,11 @@
 // Render function to update the cart contents on the page
+const baseURL = 'https://wdd330-backend.onrender.com:3000/';
 import { getLocalStorage } from "./utils.mjs";
 import { setupCartIcon, updateCartIcon } from "./cartIcon.js";
 import { loadHeaderFooter } from "./utils.mjs";
 
 function renderCartContents() {
+
   const cartItems = getLocalStorage("so-cart") || [];
   //const productList = document.querySelector(".product-list");
   const checkoutFooter = document.querySelector(".checkout-footer");
@@ -12,6 +14,13 @@ function renderCartContents() {
   const shippingEstimate = document.querySelector(".shipping-estimate")
   const taxElement = document.querySelector(".tax")
   const taxRate = 0.06
+  async function convertToJson(res) {
+    if(!res.ok){
+      console.log("response is not is affected", res.status())
+    }else{
+      return await res.json()
+    }    
+  }
 
   if (cartItems.length === 0) {
     //productList.innerHTML = "<li>Your cart is empty</li>";
@@ -49,12 +58,69 @@ function renderCartContents() {
 
     shippingEstimate.innerHTML = `Shipping $${shipping.toFixed(2)}`
     orderTotalElement.innerHTML = `Order Total: $${orderTotal.toFixed(2)}`
+  // listening for click on the button
+  document.querySelector("#submit-button").addEventListener("click", (e) => {
+  e.preventDefault();
+
+    function packageItems() {
+      const itemsObject = JSON.parse(localStorage.getItem("so-cart"))
+      console.log(itemsObject)
+      const simplifiedItems = itemsObject.map((item) => {
+        
+        return {
+          id: item.Id,
+          price: item.FinalPrice,
+          name: item.Name,
+          quantity: 1,
+        };
+      });
+      console.log(simplifiedItems);
+      return simplifiedItems;
+    }
+  
+  function formDataToJSON(formElement) {
+    const formData = new FormData(formElement),
+      convertedJSON = {};
+  
+    formData.forEach((value, key) => {
+      convertedJSON[key] = value;
+    });
+  
+    return convertedJSON;
+  }
+
+  async function calculatedDetails(tax, shipping, orderTotal, packageItems)
+  {
+    const formInfo = document.forms["checkout"]
+    const jsonForm = formDataToJSON(formInfo);
+    jsonForm.items = [...packageItems]
+    jsonForm.Tax = tax
+    jsonForm.ShippingAmount = shipping
+    jsonForm.OrderTotal = orderTotal
+
+    console.log(jsonForm);
+
+    await checkout(jsonForm)
 
   }
-  updateCartIcon();
-}
+
+  async function checkout(payload) {
+    const options = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    };
+    return await fetch(baseURL + "checkout/", options).then(convertToJson);
+  }
+
+  calculatedDetails(taxAmount,shipping,orderTotal,packageItems());
+
+})}}
 
 // Initialize the cart icon and render cart contents
 setupCartIcon();
 renderCartContents();
 loadHeaderFooter();
+updateCartIcon();
