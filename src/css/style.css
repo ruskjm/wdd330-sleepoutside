@@ -206,11 +206,90 @@ button {
   grid-column: 3;
 }
 
+/* icons styling*/
+
+.product-grid{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-auto-flow: row;
+  width: 100%;
+}
+
+.product-grid li{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  list-style-type: none;
+  width: 100%;
+}
+
+.product-grid li a{
+  text-decoration: none;
+  color: var(--dark-grey);
+  font-size: var(--small-font);
+}
+
+.product-grid h2{
+  text-decoration: none;
+  color: var(--dark-grey);
+  font-size: var(--large-font);
+  margin-top: -0.3rem;
+}
+
+.tents{
+  width: 100px;
+}
+
+/*css styling for a new visitor banner*/
+
+/* Banner styling */
+.banner {
+  display: none;
+  width: 100%;
+  background-color: #333;
+  color: #fff;
+  padding: 15px;
+  text-align: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+}
+
+.banner-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.close-banner-button {
+  cursor: pointer;
+  font-size: 20px;
+  color: #fff;
+}
+
+.register-button {
+  background-color: #ff6b6b;
+  color: white;
+  padding: 10px 20px;
+  text-decoration: none;
+  border-radius: 5px;
+}
+
+.register-button:hover {
+  background-color: #ff4b4b;
+}
+
+
+
 @media screen and (min-width: 500px) {
   body {
     max-width: 1080px;
     margin: auto;
   }
+
   .mission {
     font-size: 1.2em;
   }

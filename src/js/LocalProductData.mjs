@@ -8,12 +8,13 @@ function convertToJson(res) {
   }
 }
 
-export default class ProductData {
+export default class LocalProductData {
   constructor(category) {
+    this.category = category;
   }
   async getData(category) {
     console.log(category)
-      const response = await fetch(`${baseURL}products/search/${category}`);
+      const response = await fetch(`${baseURL}products/search/${this.category}`);
       console.log(response)
       const data = await convertToJson(response);
       console.log("this is the data: ", data.Result)

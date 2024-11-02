@@ -2,8 +2,6 @@
 export function qs(selector, parent = document) {
   return parent.querySelector(selector);
 }
-// or a more concise version if you are into that sort of thing:
-// export const qs = (selector, parent = document) => parent.querySelector(selector);
 
 // retrieve data from localstorage
 export function getLocalStorage(key) {
@@ -43,4 +41,31 @@ export function getParams(param) {
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
   return urlParams.get(param);
+}
+
+//rendering a dynamic element
+export function renderWithTemplate(template, parentElement, data, callback) {
+  parentElement.insertAdjacentHTML("afterbegin", template);
+  if (callback) {
+    callback(data);
+  }
+}
+
+//fetching the elements
+async function loadTemplate(path) {
+  const res = await fetch(path);
+  const template = await res.text();
+  return template;
+}
+
+//dynamic rendering of the header and footer
+
+export async function loadHeaderFooter() {
+  const headerTemplate = await loadTemplate("../partials/header.html");
+  const headerElement = document.querySelector("#headerElement");
+  const footerTemplate = await loadTemplate("../partials/footer.html");
+  const footerElement = document.querySelector("#footerElement");
+
+  renderWithTemplate(headerTemplate, headerElement);
+  renderWithTemplate(footerTemplate, footerElement);
 }
