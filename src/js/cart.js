@@ -2,9 +2,8 @@
 import { getLocalStorage } from "./utils.mjs";
 import { setupCartIcon, updateCartIcon } from "./cartIcon.js";
 
-// Template function for cart items
 function cartItemTemplate(item, quantity) {
-  return `<li class="cart-card divider">
+  return `<li class="cart-card divider" data-id="${item.Id}">
     <a href="#" class="cart-card__image">
       <img src="${item.Image}" alt="${item.Name}" />
     </a>
@@ -14,6 +13,7 @@ function cartItemTemplate(item, quantity) {
     <p class="cart-card__color">${item.Colors[0].ColorName}</p>
     ${quantity >= 1 ? `<p class="cart-card__quantity">${quantity} Tents.</p>` : ""}
     <p class="cart-card__price">$${item.FinalPrice}</p>
+    <button class="remove-button">Remove</button>
   </li>`;
 }
 
@@ -27,30 +27,25 @@ function renderCartContents() {
     productList.innerHTML = "<li>Your cart is empty</li>";
     cartFooter.classList.add("hide");
   } else {
-    // Tracking unique items and their quantities
     const specialItems = [];
     const productIds = new Set();
 
-    // Loop through cartItems to populate specialItems with unique products and their quantities
     cartItems.forEach((item) => {
       if (!productIds.has(item.Id)) {
         productIds.add(item.Id);
         const quantity = cartItems.filter(
           (citem) => citem.Id === item.Id,
         ).length;
-        // Calculate total price for the item
+
         const totalPrice = item.FinalPrice * quantity;
         specialItems.push({ ...item, quantity, totalPrice });
       }
     });
 
-    // Mapping over specialItems to generate HTML for each unique item
     const htmlItems = specialItems.map((sitem) =>
       cartItemTemplate(sitem, sitem.quantity),
     );
     productList.innerHTML = htmlItems.join("");
-
-    // Calculate and display the total price for the cart
     const totalCartPrice = specialItems.reduce(
       (sum, item) => sum + item.totalPrice,
       0,
@@ -59,8 +54,27 @@ function renderCartContents() {
     cartFooter.classList.remove("hide");
   }
   updateCartIcon();
+
+  document.querySelectorAll('.remove-button').forEach(button => {
+    button.addEventListener('click', (e) => {
+      const itemId = e.target.closest('.cart-card').dataset.id;
+      removeItemFromCart(itemId);
+    });
+  });
 }
 
-// Initialize the cart icon and render cart contents
+function removeItemFromCart(itemId) {
+  let cartItems = getLocalStorage("so-cart") || [];
+  
+  const itemIndex = cartItems.findIndex(item => item.Id === itemId);
+  
+  if (itemIndex !== -1) {
+    cartItems.splice(itemIndex, 1);
+    localStorage.setItem("so-cart", JSON.stringify(cartItems)); 
+  }
+
+  renderCartContents(); 
+}
+
 setupCartIcon();
 renderCartContents();

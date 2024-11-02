@@ -16,3 +16,23 @@ setupCartIcon();
 updateCartIcon();
 
 //productList.init();
+
+// Function to show the banner for first-time visitors
+function showRegisterBanner() {
+    const isReturningVisitor = localStorage.getItem("isReturningVisitor");
+  
+    if (!isReturningVisitor) {
+      const banner = document.getElementById("registerBanner");
+      banner.classList.remove("hidden");
+      localStorage.setItem("isReturningVisitor", "true");
+    }
+  }
+  
+  function closeBanner() {
+    document.getElementById("registerBanner").classList.add("hidden");
+  }
+  document.addEventListener("DOMContentLoaded", () => {
+    showRegisterBanner();
+    document.querySelector(".close-banner-button").addEventListener("click", closeBanner);
+  });
+  

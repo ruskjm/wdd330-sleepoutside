@@ -1,4 +1,4 @@
-const baseURL = "../public/json";
+const baseURL = import.meta.env.VITE_SERVER_URL;
 
 function convertToJson(res) {
   if (res.ok) {
@@ -10,18 +10,19 @@ function convertToJson(res) {
 
 export default class LocalProductData {
   constructor(category) {
-    category = this.category
+    this.category = category;
   }
-  async getlocalData() {
-      const response = await fetch(`${baseURL}/${this.category}.json`);
+  async getData(category) {
+    console.log(category)
+      const response = await fetch(`${baseURL}products/search/${this.category}`);
       console.log(response)
       const data = await convertToJson(response);
       console.log("this is the data: ", data.Result)
       return data.Result;
     }
-    async findlocalProductById(id) {
-      const response = await this.getlocalData();
-      const filteredResults = await response.filter(results => results.Id === id)
-      return filteredResults;
+    async findProductById(id) {
+      const response = await fetch(baseURL + `product/${id}`);
+      const data = await convertToJson(response);
+      return data.Result;
     }
 }
